@@ -39,8 +39,8 @@ const usersSchema = new Schema(
     }
 );
 const validate = (email) => {
-    const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return re.test(email);
+    const emailTest = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return emailTest.test(email);
 };
 
 usersSchema
@@ -50,7 +50,7 @@ usersSchema
     });
 
 // Initialize our User model
-const User = model('user', usersSchema);
+const Users = model('user', usersSchema);
 
 
-module.exports = User;
+module.exports = Users;
