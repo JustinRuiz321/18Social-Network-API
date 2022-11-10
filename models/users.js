@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const usersSchema = new Schema(
     {
-        username: {
+        userName: {
             type: String,
             unique: true,
             required: true,
@@ -46,7 +46,7 @@ const validate = (email) => {
 
 usersSchema
     .virtual('Connected friends :)')
-    .get(function () {
+    .get(() => {
         return this.friends.length;
     });
 
