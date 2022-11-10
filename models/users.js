@@ -14,7 +14,7 @@ const usersSchema = new Schema(
             unique: true,
             validate: [validate, "Enter a valid email"],
             match: [
-                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                emailTest,
                 "Enter a valid email",
             ],
         },
@@ -38,8 +38,9 @@ const usersSchema = new Schema(
         id:false,
     }
 );
+
+const emailTest = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const validate = (email) => {
-    const emailTest = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return emailTest.test(email);
 };
 
@@ -49,8 +50,8 @@ usersSchema
         return this.friends.length;
     });
 
-// Initialize our User model
-const Users = model('user', usersSchema);
+// Initialize our Users model
+const Users = model('users', usersSchema);
 
 
 module.exports = Users;
