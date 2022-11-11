@@ -5,7 +5,7 @@ const  {Users, Thoughts} = require('../models');
 module.exports = {
 
     oneThought(req, res) {
-        Thoughts.findOne({ _id: req.params.thoughtsId })
+        Thoughts.findOne({ _id: req.params.thoughtId })
         .then((thoughts) =>
             !thoughts
             ? res.status(404).json({ message: 'No thought found' })
@@ -22,14 +22,14 @@ module.exports = {
 
     updateThought(req, res) {
         Thoughts.findOneAndUpdate(
-        { _id: req.params.thoughtsId },
+        { _id: req.params.thoughtId },
         { $set: req.body },
         { runValidators: true, new: true }
         )
-        .then((thoughts) =>
-            !thoughts
+        .then((thought) =>
+            !thought
             ? res.status(404).json({ message: 'Cannot find thought' })
-            : res.json(thoughts)
+            : res.json(thought)
         )
         .catch((err) => {
             console.log(err);
@@ -41,13 +41,13 @@ module.exports = {
         Thoughts.create(req.body)
         .then((thoughts) => {
             return Users.findOneAndUpdate(
-                { _id: req.body.usersId },
+                { _id: req.body.userId },
                 { $push: { thoughts: thoughts._id } },
                 { new: true }
             );
         })
-        .then((users) =>
-            !users
+        .then((user) =>
+            !user
             ? res.status(404).json({
                 message: 'No User found',
                 })
@@ -60,13 +60,13 @@ module.exports = {
     },
 
     deleteThoughts(req, res) {
-        Thoughts.findOneAndRemove({ _id: req.params.thoughtsId })
+        Thoughts.findOneAndRemove({ _id: req.params.thoughtId })
         .then((thoughts) =>
             !thoughts
             ? res.status(404).json({ message: 'Cannot find thought' })
             : Users.findOneAndUpdate(
-                { thoughts: req.params.thoughtsId },
-                { $pull: { thoughts: req.params.thoughtsId } },
+                { thoughts: req.params.thoughtId },
+                { $pull: { thoughts: req.params.thoughtId } },
                 { new: true }
                 )
         )
