@@ -1,12 +1,12 @@
 const { Thought, User } = require('../models');
-
+//Functions for adding, changing, finding, and deleting thoughts.
 module.exports = {
-    getAllThoughts(req, res){
+    gatherThoughts(req, res){
         Thought.find()
         .then((thoughts) => res.status(200).json(thoughts))
         .catch((err) => res.status(500).json(err))
     },
-    getThought(req ,res){
+    oneThought(req ,res){
         Thought.findOne( { _id: req.params.thoughtId })
         .then((thought) => 
         !thought
@@ -31,7 +31,7 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err));
     },
-    updateThought(req, res){
+    changeThought(req, res){
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $set: req.body }, 
@@ -44,7 +44,7 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err));
     },
-    deleteThought(req, res){
+    removeThought(req, res){
         Thought.findOneAndRemove({ _id: req.params.thoughtId })
         .then((thought) => 
         !thought
@@ -62,7 +62,7 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err));
     },
-    addThoughtReaction(req, res){
+    thoughtReaction(req, res){
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $addToSet: { reactions: req.body } },
@@ -75,7 +75,7 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err))
     },
-    removeThoughtReaction(req ,res) {
+    removeReaction(req ,res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $pull: { reactions: { reactionId: req.params.reactionId } } },

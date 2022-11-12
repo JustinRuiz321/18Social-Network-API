@@ -1,12 +1,12 @@
 const { User, Thought } = require('../models');
-
+//Functions for finding all users, finding one user, updating a user, and deleting a user
 module.exports = {
-    getAllUsers(req, res){
+    findUsers(req, res){
         User.find()
         .then((users) => res.status(200).json(users))
         .catch((err) => res.status(500).json(err));
     },
-    getUser(req, res){
+    oneUser(req, res){
         User.findOne({ _id: req.params.userId })
         .populate('friends')
         .populate('thoughts')
@@ -26,7 +26,7 @@ module.exports = {
         .then((user) => res.status(200).json(user))
         .catch((err) => res.status(500).json(err));
     },
-    updateUser(req, res){
+    changeUser(req, res){
         User.findOneAndUpdate(
             { _id: req.params.userId},
             { $set: req.body },
@@ -39,7 +39,7 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err));
     },
-    deleteUser(req, res){
+    removeUser(req, res){
         User.findOneAndDelete({ _id: req.params.userId })
         .then((user) => 
         !user
@@ -49,6 +49,7 @@ module.exports = {
         .then(() => res.status(200).json({ message: 'User and thoughts are now gone'}))
         .catch((err) => res.status(500).json(err));
     },
+    //Functions for adding and deleting friends
     addFriend(req, res){
         User.findOneAndUpdate(
             { _id: req.params.userId },

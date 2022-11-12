@@ -1,22 +1,22 @@
 const router = require('express').Router();
-
+//Functions being called from controllers folder for user actions 
 const {
-    getAllUsers,
-    getUser,
+    findUsers,
+    oneUser,
     newUser,
-    updateUser,
-    deleteUser,
+    changeUser,
+    removeUser,
     addFriend,
     removeFriend
 } = require('../../controllers/users')
-
-router.route('/').get(getAllUsers).post(newUser);
-
+//opening route
+router.route('/').get(findUsers).post(newUser);
+//Routes with specifc ID
 router.route('/:userId')
-.get(getUser)
-.put(updateUser)
-.delete(deleteUser);
-
+.get(oneUser)
+.put(changeUser)
+.delete(removeUser);
+//Friend routes
 router.route('/:userId/friends/:friendId')
 .post(addFriend)
 .delete(removeFriend);
